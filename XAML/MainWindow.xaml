@@ -5,26 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XAML"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="300">
-    <Grid>
-        <Button HorizontalAlignment="Center" VerticalAlignment="Center" 
-                Width="200" Height="100">
-            <Button.Foreground>White</Button.Foreground>
-            <Button.Background>
-                <!--<RadialGradientBrush GradientOrigin="0.75, 0.25">
-                    <GradientStop Color="Purple" Offset="0.0"/>
-                    <GradientStop Color="Indigo" Offset="0.16"/>
-                    <GradientStop Color="Blue" Offset="0.32"/>
-                    <GradientStop Color="Green" Offset="0.48"/>
-                    <GradientStop Color="Yellow" Offset="0.64"/>
-                    <GradientStop Color="Orange" Offset="0.80"/>
-                    <GradientStop Color="Red" Offset="1.0"/>
-                </RadialGradientBrush>-->
-                <LinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
-                    <GradientStop Color="Blue" Offset="0"/>
-                    <GradientStop Color="Navy" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
+        Title="MainWindow" Height="350" Width="400">
+    <Window.Resources>
+        <LinearGradientBrush x:Key="NiebieskiGradient" StartPoint="0, 0.5" EndPoint="1, 0.5">
+            <GradientStop Color="Blue" Offset="0"/>
+            <GradientStop Color="navy" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="FioletowyGradient" StartPoint="0, 0.5" EndPoint="1, 0.5">
+            <GradientStop Color="Blue" Offset="0"/>
+            <GradientStop Color="BlueViolet" Offset="1"/>
+        </LinearGradientBrush>
+        <Style x:Key="StylNiebieski">
+            <Setter Property="Control.Foreground" Value="White"/>
+            <Setter Property="Control.Background" Value="{StaticResource NiebieskiGradient}"/>
+            <Setter Property="TextBlock.Foreground" Value="White"/>
+            <Setter Property="TextBlock.Background" Value="{StaticResource NiebieskiGradient}"/>
+            <Setter Property="Shape.Fill" Value="{StaticResource NiebieskiGradient}"/>
+            <Style.Triggers>
+                <Trigger Property="UIElement.IsMouseOver" Value="True">
+                    <Setter Property="Control.Background" Value="{StaticResource FioletowyGradient}"/>
+                    <Setter Property="TextBlock.Background" Value="{StaticResource FioletowyGradient}"/>
+                    <Setter Property="Shape.Fill" Value="{StaticResource FioletowyGradient}"/>
+                    <Setter Property="Control.LayoutTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.(ScaleTransform.ScaleX)" 
+                                                 Duration="0:0:1" From="1" To="1.2" AutoReverse="True" RepeatBehavior="Forever"/>
+                                <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.(ScaleTransform.ScaleY)" 
+                                                 Duration="0:0:2" From="1" To="1.2" AutoReverse="True" RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <StackPanel Orientation="Vertical">
+        <Button  HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="100"
+                Foreground="White" Style="{StaticResource StylNiebieski}" Margin="10">
             <StackPanel Orientation="Horizontal">
                 <Image Width="70" Height="70" Source="Penguins.jpg"></Image>
                 <TextBlock FontSize="16" Margin="10">
@@ -33,8 +56,13 @@
                 Kopernika
                 </TextBlock>
             </StackPanel>
-            
-            
         </Button>
-    </Grid>
+        <Button  Content="Przycisk" Margin="10" Width="100" Height="50" Style="{StaticResource StylNiebieski}">
+            <Button.LayoutTransform>
+                <RotateTransform CenterX="0" CenterY="0" Angle="15"/>
+            </Button.LayoutTransform>
+        </Button>
+        <Button Content="Przycisk" Margin="10" Width="100" Height="50" Style="{StaticResource StylNiebieski}">
+        </Button>
+    </StackPanel>
 </Window>
